@@ -1,15 +1,44 @@
 import React, { Component } from "react";
 
+// This is the Header Component
+const Header = () => (
+  <div className="header grid">
+    <h1 className="title">Jiffy</h1>
+  </div>
+);
+
 class App extends Component {
+  // Quick function that logs key presses to console
+  handleChange = event => {
+    const { value } = event.target;
+    if (value.length > 2) {
+      console.log(event.target.value);
+    }
+  };
+
+  // This function checks to make sure the input is more than 2 characters, then pushes input to an Alert upon pressing Enter
+  handleKeyPress = event => {
+    const { value } = event.target;
+
+    if (value.length > 2 && event.key === "Enter") {
+      alert(`search for ${value}`);
+    }
+  };
+
+  // This renders the Search Bar Input
   render() {
     return (
-      <div className="App">
-        <header className="App-header">
-          <h1 className="App-title">Welcome to React</h1>
-        </header>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
+      <div className="page">
+        <Header />
+        <div className="search grid">
+          {/* stack of GIFs */}
+          <input
+            className="input grid-item"
+            placeholder="Type Something"
+            onChange={this.handleChange}
+            onKeyPress={this.handleKeyPress}
+          />
+        </div>
       </div>
     );
   }
