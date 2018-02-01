@@ -8,9 +8,20 @@ const Header = () => (
 );
 
 class App extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      searchTerm: ""
+    };
+  }
+
   // Quick function that logs key presses to console
   handleChange = event => {
     const { value } = event.target;
+    this.setState((prevState, props) => ({
+      ...prevState,
+      searchTerm: value
+    }));
     if (value.length > 2) {
       console.log(event.target.value);
     }
@@ -27,6 +38,7 @@ class App extends Component {
 
   // This renders the Search Bar Input
   render() {
+    const { searchTerm } = this.state;
     return (
       <div className="page">
         <Header />
@@ -37,6 +49,7 @@ class App extends Component {
             placeholder="Type Something"
             onChange={this.handleChange}
             onKeyPress={this.handleKeyPress}
+            value={searchTerm}
           />
         </div>
       </div>
