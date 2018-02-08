@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import loader from "./images/loader.svg"
 
 // This is the Header Component
 const Header = () => (
@@ -7,11 +8,18 @@ const Header = () => (
   </div>
 );
 
+const UserHint = ({loading, hintText}) => (
+  <div className="user-hint">
+    { loading ? <img className="block mx-autos" src={loader} alt="Loading Indicator"/> : hintText }
+  </div>
+)
+
 class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      searchTerm: ""
+      searchTerm: "",
+      hintText: ""
     };
   }
 
@@ -20,7 +28,8 @@ class App extends Component {
     const { value } = event.target;
     this.setState((prevState, props) => ({
       ...prevState,
-      searchTerm: value
+      searchTerm: value,
+      hintText: `Hit enter to search for ${value}`
     }));
     if (value.length > 2) {
       console.log(event.target.value);
@@ -52,6 +61,7 @@ class App extends Component {
             value={searchTerm}
           />
         </div>
+        <UserHint {...this.state} />
       </div>
     );
   }
