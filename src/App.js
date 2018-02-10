@@ -37,10 +37,9 @@ class App extends Component {
   }
 
   searchGiphy = async searchTerm => {
-
     this.setState({
       loading: true
-    })
+    });
 
     try {
       const response = await fetch(
@@ -49,7 +48,7 @@ class App extends Component {
       const { data } = await response.json();
 
       if (!data.length) {
-        throw `Nothing found for ${searchTerm}`
+        throw `Nothing found for ${searchTerm}`;
       }
 
       const randomGif = randomChoice(data);
@@ -58,15 +57,16 @@ class App extends Component {
         ...prevState,
         gif: randomGif,
         gifs: [...prevState.gifs, randomGif],
-        loading: false
+        loading: false,
+        hintText: `Hit enter to see more ${searchTerm}`
       }));
     } catch (error) {
       this.setState((prevState, props) => ({
         ...prevState,
         hintText: error,
         loading: false
-      }))
-      console.log(error)
+      }));
+      console.log(error);
     }
   };
 
