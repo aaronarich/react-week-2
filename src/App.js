@@ -53,6 +53,7 @@ class App extends Component {
       const response = await fetch(
         `https://api.giphy.com/v1/gifs/search?api_key=C2p6jvcOM1cGL0Sip4JoF979vsaeC1LF&q=${searchTerm}&limit=25&offset=0&rating=G&lang=en`
       );
+
       const { data } = await response.json();
 
       if (!data.length) {
@@ -67,13 +68,14 @@ class App extends Component {
         loading: false,
         hintText: `Hit enter to see more ${searchTerm}`
       }));
-    } catch (error) {
+    }
+
+    catch (error) {
       this.setState((prevState, props) => ({
         ...prevState,
         hintText: error,
         loading: false
       }));
-      console.log(error);
     }
   };
 
@@ -106,6 +108,7 @@ class App extends Component {
       hintText: "",
       gifs: []
     }));
+    this.textInput.focus();
   };
 
   // This renders the Search Bar Input
@@ -123,6 +126,9 @@ class App extends Component {
             onChange={this.handleChange}
             onKeyPress={this.handleKeyPress}
             value={searchTerm}
+            ref={input => {
+              this.textInput = input;
+            }}
           />
         </div>
         <UserHint {...this.state} />
