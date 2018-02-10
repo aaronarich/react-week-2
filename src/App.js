@@ -87,9 +87,6 @@ class App extends Component {
       searchTerm: value,
       hintText: value.length > 2 ? `Hit enter to search for ${value}` : ""
     }));
-    if (value.length > 2) {
-      console.log(event.target.value);
-    }
   };
 
   // This function checks to make sure the input is more than 2 characters, then pushes input to an Alert upon pressing Enter
