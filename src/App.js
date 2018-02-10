@@ -17,7 +17,7 @@ const Header = () => (
 const UserHint = ({ loading, hintText }) => (
   <div className="user-hint">
     {loading ? (
-      <img className="block mx-autos" src={loader} alt="Loading Indicator" />
+      <img className="block mx-auto" src={loader} alt="Loading Indicator" />
     ) : (
       hintText
     )}
@@ -28,6 +28,7 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      loading: false,
       searchTerm: "",
       hintText: "",
       gif: null,
@@ -36,20 +37,37 @@ class App extends Component {
   }
 
   searchGiphy = async searchTerm => {
+
+    this.setState({
+      loading: true
+    })
+
     try {
       const response = await fetch(
         `https://api.giphy.com/v1/gifs/search?api_key=C2p6jvcOM1cGL0Sip4JoF979vsaeC1LF&q=${searchTerm}&limit=25&offset=0&rating=G&lang=en`
       );
       const { data } = await response.json();
 
+      if (!data.length) {
+        throw `Nothing found for ${searchTerm}`
+      }
+
       const randomGif = randomChoice(data);
 
       this.setState((prevState, props) => ({
         ...prevState,
         gif: randomGif,
-        gifs: [...prevState.gifs, randomGif]
+        gifs: [...prevState.gifs, randomGif],
+        loading: false
       }));
-    } catch (error) {}
+    } catch (error) {
+      this.setState((prevState, props) => ({
+        ...prevState,
+        hintText: error,
+        loading: false
+      }))
+      console.log(error)
+    }
   };
 
   // Quick function that logs key presses to console
