@@ -76,7 +76,7 @@ class App extends Component {
 
   // This renders the Search Bar Input
   render() {
-    const { searchTerm, gif } = this.state;
+    const { searchTerm } = this.state;
     return (
       <div className="page">
         <Header />
