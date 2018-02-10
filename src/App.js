@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import Gif from "./Gif";
 import loader from "./images/loader.svg";
+import clearButton from "./images/close-icon.svg";
 
 const randomChoice = arr => {
   const randIndex = Math.floor(Math.random() * arr.length);
@@ -8,9 +9,17 @@ const randomChoice = arr => {
 };
 
 // This is the Header Component
-const Header = () => (
+const Header = ({ clearSearch, hasResults }) => (
   <div className="header grid">
-    <h1 className="title">Jiffy</h1>
+    {hasResults ? (
+      <button onClick={clearSearch}>
+        <img src={clearButton} alt="Clear search" />
+      </button>
+    ) : (
+      <h1 className="title" onClick={clearSearch}>
+        Jiffy
+      </h1>
+    )}
   </div>
 );
 
@@ -31,7 +40,6 @@ class App extends Component {
       loading: false,
       searchTerm: "",
       hintText: "",
-      gif: null,
       gifs: []
     };
   }
@@ -55,7 +63,6 @@ class App extends Component {
 
       this.setState((prevState, props) => ({
         ...prevState,
-        gif: randomGif,
         gifs: [...prevState.gifs, randomGif],
         loading: false,
         hintText: `Hit enter to see more ${searchTerm}`
@@ -92,12 +99,22 @@ class App extends Component {
     }
   };
 
+  clearSearch = () => {
+    this.setState((prevState, props) => ({
+      ...prevState,
+      searchTerm: "",
+      hintText: "",
+      gifs: []
+    }));
+  };
+
   // This renders the Search Bar Input
   render() {
-    const { searchTerm } = this.state;
+    const { searchTerm, gifs } = this.state;
+    const hasResults = gifs.length;
     return (
       <div className="page">
-        <Header />
+        <Header clearSearch={this.clearSearch} hasResults={hasResults} />
         <div className="search grid">
           {this.state.gifs.map(gif => <Gif {...gif} />)}
           <input
