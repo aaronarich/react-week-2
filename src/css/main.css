@@ -128,7 +128,23 @@ button {
   .page {
     padding: 2rem;
   }
+  .header {
+    height: 50px;
+    text-align: center;
+  }
   .input {
     font-size: 36px;
+    position: relative;
+    z-index: 2;
+  }
+  .search {
+    height: calc(90vh - 100px);
+  }
+  .search .grid-item:last-child {
+    position: relative;
+    z-index: 1;
+  }
+  .video {
+    margin: auto;
   }
 }
